@@ -41,6 +41,15 @@ class Ph_Plastic_Admin {
 	private $version;
 
 	/**
+	 * The options name to be used in this plugin
+	 *
+	 * @since  	1.0.0
+	 * @access 	private
+	 * @var  	string 		$option_name 	Option name of this plugin
+	 */
+	private $option_name = 'ph_plastic';
+
+	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
@@ -98,6 +107,117 @@ class Ph_Plastic_Admin {
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/ph-plastic-admin.js', array( 'jquery' ), $this->version, false );
 
+	}
+
+	/**
+	 * Add an options page under the Settings submenu
+	 *
+	 * @since  1.0.0
+	 */
+	public function add_options_page() {
+	
+		$this->plugin_screen_hook_suffix = add_options_page(
+			__( 'PH Plastic Settings', 'ph-plastic' ),
+			__( 'PH Plastic', 'ph-plastic' ),
+			'manage_options',
+			$this->plugin_name,
+			array( $this, 'display_options_page' )
+		);
+	
+	}
+
+	/**
+	 * Render the options page for plugin
+	 *
+	 * @since  1.0.0
+	 */
+	public function display_options_page() {
+		include_once 'partials/ph-plastic-admin-display.php';
+	}
+
+	/**
+	 * Register all related settings of this plugin
+	 *
+	 * @since  1.0.0
+	 */
+	public function register_setting() {
+		add_settings_section(
+			$this->option_name . '_general',
+			__( 'General', 'ph-plastic' ),
+			array( $this, $this->option_name . '_general_cb' ),
+			$this->plugin_name
+		);
+		add_settings_field(
+			$this->option_name . '_position',
+			__( 'Text position', 'ph-plastic' ),
+			array( $this, $this->option_name . '_position_cb' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_position' )
+		);
+		add_settings_field(
+			$this->option_name . '_day',
+			__( 'Post is outdated after', 'ph-plastic' ),
+			array( $this, $this->option_name . '_day_cb' ),
+			$this->plugin_name,
+			$this->option_name . '_general',
+			array( 'label_for' => $this->option_name . '_day' )
+		);
+		register_setting( $this->plugin_name, $this->option_name . '_position', array( $this, $this->option_name . '_sanitize_position' ) );
+		register_setting( $this->plugin_name, $this->option_name . '_day', 'intval' );
+	}
+
+	/**
+	 * Render the text for the general section
+	 *
+	 * @since  1.0.0
+	 */
+	public function ph_plastic_general_cb() {
+		echo '<p>' . __( 'Please change the settings accordingly.', 'ph-pl' ) . '</p>';
+	}
+
+	/**
+	 * Render the radio input field for position option
+	 *
+	 * @since  1.0.0
+	 */
+	public function ph_plastic_position_cb() {
+		$position = get_option( $this->option_name . '_position' );
+		?>
+			<fieldset>
+				<label>
+					<input type="radio" name="<?php echo $this->option_name . '_position' ?>" id="<?php echo $this->option_name . '_position' ?>" value="before" <?php checked( $position, 'before' ); ?>>
+					<?php _e( 'Before the content', 'ph-plastic' ); ?>
+				</label>
+				<br>
+				<label>
+					<input type="radio" name="<?php echo $this->option_name . '_position' ?>" value="after" <?php checked( $position, 'after' ); ?>>
+					<?php _e( 'After the content', 'ph-plastic' ); ?>
+				</label>
+			</fieldset>
+		<?php
+	}
+	/**
+	 * Render the treshold day input for this plugin
+	 *
+	 * @since  1.0.0
+	 */
+	public function ph_plastic_day_cb() {
+		$day = get_option( $this->option_name . '_day' );
+		echo '<input type="text" name="' . $this->option_name . '_day' . '" id="' . $this->option_name . '_day' . '" value="' . $day . '"> ' . __( 'days', 'ph-plastic' );
+	}
+
+	/**
+	 * Sanitize the text position value before being saved to database
+	 *
+	 * @param  string $position $_POST value
+	 * @since  1.0.0
+	 * @return string           Sanitized value
+	 */
+	public function ph_plastic_sanitize_position( $position ) {
+		if ( in_array( $position, array( 'before', 'after' ), true ) ) {
+	        return $position;
+	    }
 	}
 
 }
