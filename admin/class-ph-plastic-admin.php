@@ -114,16 +114,72 @@ class Ph_Plastic_Admin {
 	 *
 	 * @since  1.0.0
 	 */
-	public function add_options_page() {
+	public function add_menu_options() {
 	
-		$this->plugin_screen_hook_suffix = add_options_page(
-			__( 'PH Plastic Settings', 'ph-plastic' ),
+		$this->plugin_screen_hook_suffix = add_menu_page(
 			__( 'PH Plastic', 'ph-plastic' ),
+			__( 'PH Plastic', 'ph-plastic' ),
+			'manage_options',
+			$this->plugin_name,
+			array( $this, 'display_main_options_page' ),
+			'dashicons-tablet',
+			10
+		);
+
+		add_submenu_page(
+			$this->plugin_name,
+			__( 'PH Plastic', 'ph-plastic' ),
+			__( 'General Info', 'ph-plastic' ),
 			'manage_options',
 			$this->plugin_name,
 			array( $this, 'display_options_page' )
 		);
-	
+
+		add_submenu_page(
+			$this->plugin_name,
+			__( 'PH Plastic > Manage Ads', 'ph-plastic' ),
+			__( 'Manage Ads', 'ph-plastic' ),
+			'manage_options',
+			$this->plugin_name . '_manage_ads',
+			array( $this, 'display_options_page' )
+		);
+
+		add_submenu_page(
+			$this->plugin_name,
+			__( 'PH Plastic > Manage Groups', 'ph-plastic' ),
+			__( 'Manage Groups', 'ph-plastic' ),
+			'manage_options',
+			$this->plugin_name . '_manage_groups',
+			array( $this, 'display_options_page' )
+		);
+
+		add_submenu_page(
+			$this->plugin_name,
+			__( 'PH Plastic > Manage Schedules', 'ph-plastic' ),
+			__( 'Manage Schedules', 'ph-plastic' ),
+			'manage_options',
+			$this->plugin_name . '_manage_schedules',
+			array( $this, 'display_options_page' )
+		);
+
+		add_submenu_page(
+			$this->plugin_name,
+			__( 'PH Plastic > Manage Media', 'ph-plastic' ),
+			__( 'Manage Media', 'ph-plastic' ),
+			'manage_options',
+			$this->plugin_name . '_manage_media',
+			array( $this, 'display_options_page' )
+		);
+
+		add_submenu_page(
+			$this->plugin_name,
+			__( 'PH Plastic > Settings', 'ph-plastic' ),
+			__( 'Settings', 'ph-plastic' ),
+			'manage_options',
+			$this->plugin_name . '_manage_settings',
+			array( $this, 'display_options_page' )
+		);
+
 	}
 
 	/**
