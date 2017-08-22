@@ -132,7 +132,7 @@ class Ph_Plastic_Admin {
 			__( 'General Info', 'ph-plastic' ),
 			'manage_options',
 			$this->plugin_name,
-			array( $this, 'display_options_page' )
+			array( $this, 'display_general_info_page' )
 		);
 
 		add_submenu_page(
@@ -141,7 +141,7 @@ class Ph_Plastic_Admin {
 			__( 'Manage Ads', 'ph-plastic' ),
 			'manage_options',
 			$this->plugin_name . '_manage_ads',
-			array( $this, 'display_options_page' )
+			array( $this, 'display_manage_ads_page' )
 		);
 
 		add_submenu_page(
@@ -150,7 +150,7 @@ class Ph_Plastic_Admin {
 			__( 'Manage Groups', 'ph-plastic' ),
 			'manage_options',
 			$this->plugin_name . '_manage_groups',
-			array( $this, 'display_options_page' )
+			array( $this, 'display_manage_groups_page' )
 		);
 
 		add_submenu_page(
@@ -159,7 +159,7 @@ class Ph_Plastic_Admin {
 			__( 'Manage Schedules', 'ph-plastic' ),
 			'manage_options',
 			$this->plugin_name . '_manage_schedules',
-			array( $this, 'display_options_page' )
+			array( $this, 'display_manage_schedules_page' )
 		);
 
 		add_submenu_page(
@@ -168,7 +168,7 @@ class Ph_Plastic_Admin {
 			__( 'Manage Media', 'ph-plastic' ),
 			'manage_options',
 			$this->plugin_name . '_manage_media',
-			array( $this, 'display_options_page' )
+			array( $this, 'display_manage_media_page' )
 		);
 
 		add_submenu_page(
@@ -176,8 +176,8 @@ class Ph_Plastic_Admin {
 			__( 'PH Plastic > Settings', 'ph-plastic' ),
 			__( 'Settings', 'ph-plastic' ),
 			'manage_options',
-			$this->plugin_name . '_manage_settings',
-			array( $this, 'display_options_page' )
+			$this->plugin_name . '_settings',
+			array( $this, 'display_settings_page' )
 		);
 
 	}
@@ -187,8 +187,28 @@ class Ph_Plastic_Admin {
 	 *
 	 * @since  1.0.0
 	 */
-	public function display_options_page() {
-		include_once 'partials/ph-plastic-admin-display.php';
+	public function display_general_info_page() {
+		include_once 'partials/ph-plastic-admin-general-info.php';
+	}
+
+	public function display_manage_ads_page() {
+		include_once 'partials/ph-plastic-manage-ads.php';
+	}
+
+	public function display_manage_groups_page() {
+		include_once 'partials/ph-plastic-manage-groups.php';
+	}
+
+	public function display_manage_schedules_page() {
+		include_once 'partials/ph-plastic-manage-schedules.php';
+	}
+
+	public function display_manage_media_page() {
+		include_once 'partials/ph-plastic-manage-media.php';
+	}
+
+	public function display_settings_page() {
+		include_once 'partials/ph-plastic-settings.php';
 	}
 
 	/**
